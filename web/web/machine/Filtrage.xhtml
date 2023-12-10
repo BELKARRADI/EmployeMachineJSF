@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMachineFilltrage}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form id="MachineListForm">
+                <p:panel header="#{bundle.ListMachineFilltrage}">
+
+                    <p:selectOneMenu value="#{employeController.employeSelectionne}">
+                        <f:selectItem itemLabel="Sélectionnez un employé" itemValue="#{null}" />
+                        <f:selectItems value="#{employeController.items}" var="employe" itemLabel="#{employe.nom}" itemValue="#{employe}" />
+                        <p:ajax update="dataTableMachines" process="@this" listener="#{employeController.chargerMachinesListener}" />
+                    </p:selectOneMenu>
+
+                    <p:dataTable id="dataTableMachines" var="item" value="#{employeController.listeMachines}">
+
+
+                        <p:column  filterBy="#{item.id}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.dateAchat}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_dateAchat}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateAchat}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{item.marque}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_marque}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.marque}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.prix}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_prix}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prix}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.reference}"> 
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_reference}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.reference}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.employe}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMachineTitle_employe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.employe.nom}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+            </h:form>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
