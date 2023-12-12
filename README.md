@@ -4,7 +4,7 @@ https://github.com/BELKARRADI/EmployeMachineJSF/assets/125222396/edc28d96-76c0-4
 ## Visualisation du Nombre de Machines Achetées par Année
 <li>L'application offre la possibilité de visualiser le nombre de machines achetées par année. Voici un aperçu de l'écran correspondant :</li><br/>
 
-![Capture d'écran 2023-12-12 184211](https://github.com/BELKARRADI/EmployeMachineJSF/assets/125222396/74aff7df-ca85-4dab-b36d-b2aa5367ea3a)
+![Capture d'écran 2023-12-12 185857](https://github.com/BELKARRADI/EmployeMachineJSF/assets/125222396/e71af3f7-e3be-4e61-8a9d-0e8608d2f457)
 
 
 ## Internationalisation
