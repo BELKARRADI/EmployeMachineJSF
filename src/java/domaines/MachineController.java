@@ -18,6 +18,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartModel;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.DateAxis;
 
 @ManagedBean(name = "machineController")
 @SessionScoped
@@ -157,5 +162,31 @@ public class MachineController implements Serializable {
         }
 
     }
+    
+    public ChartModel createBarModel() {
+        CartesianChartModel model = new CartesianChartModel();
+        ChartSeries employe = new ChartSeries();
+        employe.setLabel("employes");
+        model.setAnimate(true);
+//        for (Object[] e : ejbFacade.nbEmploye()) {
+//            employe.set(e[1], Integer.parseInt(e[0].toString()));
+//        }
+
+        for (Machine m : ejbFacade.findAll()) {
+            employe.set(m.getEmploye().getNom(), m.getEmploye().getMachineList().size());
+        }
+
+        model.addSeries(employe);
+        model.setTitle("Zoom for Details");
+        model.setZoom(true);
+        model.getAxis(AxisType.Y).setLabel("Values");
+        DateAxis axis = new DateAxis("Dates");
+        axis.setTickAngle(-50);
+        axis.setMax("2024-02-01");
+        axis.setTickFormat("%b %#d, %y");
+        return model;
+
+    }
+
 
 }

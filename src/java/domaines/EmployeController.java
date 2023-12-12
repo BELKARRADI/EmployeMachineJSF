@@ -9,7 +9,10 @@ import services.EmployeFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.event.AjaxBehaviorEvent;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 @ManagedBean(name = "employeController")
 @SessionScoped
@@ -191,6 +197,40 @@ public class EmployeController implements Serializable {
         } else {
             listeMachines = new ArrayList<>();
         }
+    }
+
+    public ChartModel initBarModel() {
+        CartesianChartModel model = new CartesianChartModel();
+
+        // Map pour stocker le nombre de machines par année
+        Map<Integer, Integer> machinesParAnnee = new HashMap<>();
+
+        // Remplir la map avec les données
+        for (Employe employe : getItemsAvailableSelectMany()) {
+            for (Machine m : employe.getMachineList()) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(m.getDateAchat());
+
+                int annee = calendar.get(Calendar.YEAR);
+
+                // Mettre à jour le nombre de machines pour cette année
+                machinesParAnnee.put(annee, machinesParAnnee.getOrDefault(annee, 0) + 1);
+            }
+        }
+
+        // Créer la série de données pour le graphique
+        ChartSeries machinesParAnneeSeries = new ChartSeries();
+        machinesParAnneeSeries.setLabel("Machines par Année");
+
+        for (Map.Entry<Integer, Integer> entry : machinesParAnnee.entrySet()) {
+            machinesParAnneeSeries.set(entry.getKey().toString(), entry.getValue());
+        }
+
+        // Ajouter la série de données au modèle
+        model.addSeries(machinesParAnneeSeries);
+
+        
+        return model;
     }
 
 }
